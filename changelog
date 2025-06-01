@@ -1,0 +1,18 @@
+# [1.11.0] - 2025-05-28
+
+
+#### ⚠️ Attention Required
+
+🚨 **Important:** Due to changes in the `normalsub` system (now using passwords in links and routing through Caddy),
+you must **re-activate NormalSUB** from the settings panel after upgrading to **v1.11.0**.
+
+Failure to do so may result in broken subscription links.
+
+---
+
+#### ✨ Features & Improvements
+
+* 🔐 **normalsub:** Use **user password** instead of username in subscription path for improved privacy (harder to enumerate users)
+* 🔁 **normalsub:** Now uses **Caddy** as a reverse proxy for better performance and flexibility
+* 🧩 **WARP API:** Adapted backend to support **JSON-based status output**
+* 🛠️ **Script Update:** WARP status script now outputs clean **JSON**, allowing easier parsing and integration
