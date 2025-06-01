@@ -7,19 +7,13 @@
   "dns": {
     "servers": [
       {
-        "tag": "dns-remote",
-        "address": "udp://1.1.1.1",
-        "address_resolver": "dns-direct"
-      },
-      {
-        "tag": "dns-direct",
-        "address": "1.1.1.1",
-        "address_resolver": "dns-local",
+        "tag": "dns-cloudflare-family-1",
+        "address": "tcp://1.1.1.3",
         "detour": "direct"
       },
       {
-        "tag": "dns-local",
-        "address": "local",
+        "tag": "dns-cloudflare-family-2",
+        "address": "tcp://1.0.0.3",
         "detour": "direct"
       },
       {
@@ -27,7 +21,14 @@
         "address": "rcode://success"
       }
     ],
-    "independent_cache": true
+    "independent_cache": true,
+    "strategy": "prefer_ipv4",
+    "rules": [
+      {
+        "geosite": "category-porn",
+        "outbound": "block"
+      }
+    ]
   },
   "inbounds": [
     {
@@ -47,7 +48,6 @@
         "::/1",
         "8000::/1"
       ],
-    
       "route_exclude_address": [
         "192.168.0.0/16",
         "fc00::/7"
@@ -105,6 +105,10 @@
     {
       "type": "direct",
       "tag": "bypass"
+    },
+    {
+      "type": "block",
+      "tag": "block"
     }
   ],
   "route": {
@@ -138,6 +142,10 @@
         "rule_set": "geoip-phishing"
       },
       {
+        "action": "reject",
+        "rule_set": "geosite-nsfw"
+      },
+      {
         "action": "hijack-dns",
         "protocol": "dns"
       },
@@ -152,7 +160,6 @@
         "outbound": "direct"
       }
     ],
-
     "rule_set": [
       {
         "type": "remote",
@@ -215,6 +222,14 @@
         "tag": "geoip-phishing",
         "format": "binary",
         "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-phishing.srs",
+        "download_detour": "direct",
+        "update_interval": "72h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-nsfw",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/aleskxyz/sing-box-rules/refs/heads/rule-set/geosite-nsfw.srs",
         "download_detour": "direct",
         "update_interval": "72h0m0s"
       }
